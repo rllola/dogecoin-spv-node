@@ -44,12 +44,13 @@ jobs:
       id: version
       run: |
         echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\/v/}
-        npm version --no-git-tag-version $VERSION
 
-    - name: Npm Install
+    - name: Npm Install and Version
       run: |
         npm install
         npm -g install pkg
+        npm version --no-git-tag-version ${{steps.version.outputs.VERSION}}
+
     - name: Package application
       run: |
         make package
